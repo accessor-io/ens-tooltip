@@ -1,127 +1,63 @@
-/* Base Tooltip Styles */
-#tooltip {
-    display: none;
+.ens-tooltip {
     position: absolute;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(229, 231, 235, 0.5);
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 
-        0 4px 6px -1px rgba(55, 162, 223, 0.1),
-        0 2px 4px -1px rgba(29, 114, 148, 0.06);
     z-index: 1000;
-    max-width: 380px;
-    animation: tooltipFade 0.2s ease-in-out;
-}
-
-/* ENS Name Link Styling */
-.ens-name {
-    cursor: pointer;
-    color: #2563eb;
-    transition: color 0.2s ease;
-}
-
-.ens-name:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
-}
-
-/* Modern Tooltip Container */
-.tooltip {
-    position: fixed;
-    z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    box-shadow: 
-        0 10px 15px -3px rgba(0, 0, 0, 0.1),
-        0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    padding: 16px;
-    max-width: 380px;
-    font-family: system-ui, -apple-system, sans-serif;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1rem;
+    max-width: 300px;
     font-size: 14px;
-    line-height: 1.5;
-    transition: all 0.2s ease-in-out;
-    border: 1px solid rgba(229, 231, 235, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Tooltip Header */
-.tooltip-header {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(229, 231, 235, 0.8);
-    color: #111827;
-}
-
-/* Content Layout */
-.tooltip-content {
+.ens-tooltip-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.5rem;
 }
 
-/* Avatar Styling */
-.tooltip-avatar {
-    width: 72px;
-    height: 72px;
+.ens-avatar-container {
+    width: 128px;
+    height: 128px;
+    margin: 0 auto;
     border-radius: 50%;
-    margin-bottom: 12px;
-    align-self: center;
-    border: 2px solid rgba(229, 231, 235, 0.8);
-    transition: transform 0.2s ease;
+    overflow: hidden;
 }
 
-.tooltip-avatar:hover {
-    transform: scale(1.05);
+.ens-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Record Container */
-.recordContainer {
-    margin-bottom: 12px;
-    padding: 8px;
-    background-color: rgba(249, 250, 251, 0.8);
-    border-radius: 8px;
-}
-
-/* Data Title */
-.dataTitle {
+.ens-tooltip h3 {
+    margin: 0;
+    font-size: 1.1em;
     font-weight: 600;
-    margin-bottom: 4px;
-    color: #374151;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
+    color: #1a202c;
 }
 
-/* Text Record */
-.textRecord {
-    word-break: break-word;
-    color: #4B5563;
-    font-size: 14px;
+.ens-tooltip p {
+    margin: 0;
+    color: #4a5568;
 }
 
-.textRecord a {
-    color: #2563eb;
-    text-decoration: none;
-    transition: all 0.2s ease;
+.ens-error {
+    color: #e53e3e;
 }
 
-.textRecord a:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
-}
-
-/* Animation Keyframes */
-@keyframes tooltipFade {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .ens-tooltip {
+        background: #2d3748;
+        border-color: rgba(255, 255, 255, 0.1);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .ens-tooltip h3 {
+        color: #f7fafc;
     }
-} 
+
+    .ens-tooltip p {
+        color: #e2e8f0;
+    }
+}

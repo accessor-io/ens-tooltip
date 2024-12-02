@@ -1,48 +1,36 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
-import postcss from 'rollup-plugin-postcss';
+import babel from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
 
-const packageJson = require('./package.json');
-
-export default [
-  // UMD build
-  {
+export default {
     input: 'src/index.js',
-    output: {
-      name: 'ENSTooltip',
-      file: packageJson.main,
-      format: 'umd',
-      globals: {
-        ethers: 'ethers'
-      }
-    },
+    output: [
+        {
+            file: 'dist/ens-tooltip.js',
+            format: 'umd',
+            name: 'ENSTooltip',
+            globals: {
+                ethers: 'ethers'
+            }
+        },
+        {
+            file: 'dist/ens-tooltip.min.js',
+            format: 'umd',
+            name: 'ENSTooltip',
+            plugins: [terser()],
+            globals: {
+                ethers: 'ethers'
+            }
+        }
+    ],
     external: ['ethers'],
     plugins: [
-      resolve(),
-      commonjs(),
-      postcss({
-        extract: true,
-        minimize: true
-      }),
-      terser()
+        resolve(),
+        commonjs(),
+        babel({
+            babelHelpers: 'bundled',
+            exclude: 'node_modules/**'
+        })
     ]
-  },
-  // ESM build
-  {
-    input: 'src/index.js',
-    output: {
-      file: packageJson.module,
-      format: 'es'
-    },
-    external: ['ethers'],
-    plugins: [
-      resolve(),
-      commonjs(),
-      postcss({
-        extract: true,
-        minimize: true
-      })
-    ]
-  }
-]; 
+}; 
