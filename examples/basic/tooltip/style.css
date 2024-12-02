@@ -1,0 +1,27 @@
+.ens-name {
+    color: #1a2bc2;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.ens-tooltip {
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.ens-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 5px 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+} 

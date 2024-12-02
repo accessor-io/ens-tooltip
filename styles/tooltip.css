@@ -1,0 +1,127 @@
+/* Base Tooltip Styles */
+#tooltip {
+    display: none;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 
+        0 4px 6px -1px rgba(55, 162, 223, 0.1),
+        0 2px 4px -1px rgba(29, 114, 148, 0.06);
+    z-index: 1000;
+    max-width: 380px;
+    animation: tooltipFade 0.2s ease-in-out;
+}
+
+/* ENS Name Link Styling */
+.ens-name {
+    cursor: pointer;
+    color: #2563eb;
+    transition: color 0.2s ease;
+}
+
+.ens-name:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Modern Tooltip Container */
+.tooltip {
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    max-width: 380px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+/* Tooltip Header */
+.tooltip-header {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+    color: #111827;
+}
+
+/* Content Layout */
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Avatar Styling */
+.tooltip-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    align-self: center;
+    border: 2px solid rgba(229, 231, 235, 0.8);
+    transition: transform 0.2s ease;
+}
+
+.tooltip-avatar:hover {
+    transform: scale(1.05);
+}
+
+/* Record Container */
+.recordContainer {
+    margin-bottom: 12px;
+    padding: 8px;
+    background-color: rgba(249, 250, 251, 0.8);
+    border-radius: 8px;
+}
+
+/* Data Title */
+.dataTitle {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #374151;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+/* Text Record */
+.textRecord {
+    word-break: break-word;
+    color: #4B5563;
+    font-size: 14px;
+}
+
+.textRecord a {
+    color: #2563eb;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.textRecord a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Animation Keyframes */
+@keyframes tooltipFade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 
