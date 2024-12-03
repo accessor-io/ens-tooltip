@@ -200,16 +200,10 @@ Please read our [Contributing Guide](CONTRIBUTING.md) for more details.
 
 ## 📄 License
 
-MIT © [Your Name]
+MIT © [accessor.eth]
 
 ## 🙋‍♂️ Support
 
 - Create an [Issue](https://github.com/acessor-io/ens-tooltip/issues)
-- Follow us on [Twitter](https://twitter.com/)
+- Follow me on [Twitter](https://twitter.com/ioevno)
 
-## 🙏 Acknowledgments
-
- Those who support my efforts to make the web a better place
-- The Web3 community
-```
-   
