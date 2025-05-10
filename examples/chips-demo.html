@@ -33,13 +33,26 @@
   </div>
   <div>
     <input id="chip-name" placeholder="Name or ENS" />
-    <input id="chip-type" placeholder="Type (e.g. Bookmark, Address, NFT, DAO, DeFi)" />
+    <select id="chip-type">
+      <option value="">Select Type</option>
+      <option value="Bookmark">Bookmark</option>
+      <option value="Address">Address</option>
+      <option value="NFT">NFT</option>
+      <option value="DAO">DAO</option>
+      <option value="DeFi">DeFi</option>
+    </select>
     <input id="chip-category" placeholder="Category (e.g. DeFi, NFT, DAO, Social)" />
     <input id="chip-address" placeholder="Address (0x..., ENS, etc.)" />
     <input id="chip-url" placeholder="dApp or resource URL" />
     <input id="chip-tags" placeholder="Tags (comma separated)" />
     <input id="chip-meta" placeholder="Meta (e.g. NFT ID, DAO role, etc.)" />
-    <input id="chip-network" placeholder="Network (Ethereum, Polygon, etc.)" />
+    <select id="chip-network">
+      <option value="">Select Network</option>
+      <option value="Ethereum">Ethereum</option>
+      <option value="Polygon">Polygon</option>
+      <option value="Arbitrum">Arbitrum</option>
+      <option value="Optimism">Optimism</option>
+    </select>
     <input id="chip-chainid" placeholder="Chain ID (e.g. 1, 137)" />
     <input id="chip-symbol" placeholder="Token/NFT Symbol" />
     <input id="chip-expiry" type="date" placeholder="Expiration Date" />
