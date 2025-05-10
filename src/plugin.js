@@ -187,4 +187,6 @@ class ENSTooltip {
 if (typeof window !== 'undefined') {
     window.ENSTooltip = ENSTooltip;
     console.log('ENSTooltip added to window');
-} 
+}
+
+export { ENSTooltip }; 
