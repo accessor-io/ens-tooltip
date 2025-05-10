@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Decentralized Chips Demo</title>
+  <title>Chip Minting Portal</title>
   <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client@60.0.1/dist/index.min.js"></script>
   <style>
     body { font-family: sans-serif; margin: 2em; }
@@ -19,10 +19,18 @@
     .chip-label { font-weight: bold; color: #333; }
     textarea { font-family: monospace; font-size: 1em; }
     .chip-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.1; z-index: -1; }
+    .header { text-align: center; margin-bottom: 1em; }
+    .sign-in { margin-bottom: 1em; }
   </style>
 </head>
 <body>
-  <h2>Decentralized Chips Demo</h2>
+  <div class="header">
+    <h1>Chip Minting Portal</h1>
+    <p>Manage and collect chips here. Sign in with your Web3 account to collect chips.</p>
+  </div>
+  <div class="sign-in">
+    <button id="sign-in">Sign In with Web3</button>
+  </div>
   <div>
     <input id="chip-name" placeholder="Name or ENS" />
     <input id="chip-type" placeholder="Type (e.g. Bookmark, Address, NFT, DAO, DeFi)" />
