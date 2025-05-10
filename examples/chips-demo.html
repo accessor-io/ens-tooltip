@@ -6,7 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client@60.0.1/dist/index.min.js"></script>
   <style>
     body { font-family: sans-serif; margin: 2em; }
-    .chip { border: 1px solid #ccc; border-radius: 8px; padding: 1em; margin: 0.5em 0; background: #f9f9f9; }
+    .chip { border: 1px solid #ccc; border-radius: 8px; padding: 1em; margin: 0.5em 0; background: #f9f9f9; position: relative; }
     .chip strong { color: #2d72d9; }
     .chip small { color: #666; }
     .chip button { float: right; }
@@ -18,6 +18,7 @@
     .chip-section { margin-bottom: 0.3em; }
     .chip-label { font-weight: bold; color: #333; }
     textarea { font-family: monospace; font-size: 1em; }
+    .chip-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.1; z-index: -1; }
   </style>
 </head>
 <body>
@@ -38,6 +39,7 @@
     <textarea id="chip-abi" placeholder="Contract ABI (JSON)" rows="2" cols="30"></textarea>
     <textarea id="chip-custom" placeholder="Custom Metadata (JSON)" rows="2" cols="30"></textarea>
     <input id="chip-notes" placeholder="Notes" />
+    <input id="chip-bg" type="file" accept="image/*" />
     <button id="add-chip">Add Chip</button>
   </div>
   <div>
@@ -79,6 +81,12 @@
             <button onclick="removeChip(${idx})">Remove</button>
             <div style="font-size:0.8em;color:#aaa;">${chip.dateCreated}</div>
           `;
+          if (chip.bgImage) {
+            const bg = document.createElement('div');
+            bg.className = 'chip-bg';
+            bg.style.backgroundImage = `url(${chip.bgImage})`;
+            div.appendChild(bg);
+          }
           list.appendChild(div);
         });
     }
@@ -113,8 +121,9 @@
       try { abi = abi ? JSON.parse(abi) : null; } catch { abi = abi || null; }
       try { custom = custom ? JSON.parse(custom) : null; } catch { custom = custom || null; }
       const notes = document.getElementById('chip-notes').value;
+      const bgFile = document.getElementById('chip-bg').files[0];
       if (!name || !category) return alert('Name and category required!');
-      chips.push({
+      const chip = {
         id: Date.now().toString(),
         name,
         type,
@@ -132,24 +141,53 @@
         custom,
         notes,
         dateCreated: new Date().toLocaleString()
-      });
-      renderChips(document.getElementById('category-filter').value);
-      updateCategoryFilter();
-      document.getElementById('chip-name').value = '';
-      document.getElementById('chip-type').value = '';
-      document.getElementById('chip-category').value = '';
-      document.getElementById('chip-address').value = '';
-      document.getElementById('chip-url').value = '';
-      document.getElementById('chip-tags').value = '';
-      document.getElementById('chip-meta').value = '';
-      document.getElementById('chip-network').value = '';
-      document.getElementById('chip-chainid').value = '';
-      document.getElementById('chip-symbol').value = '';
-      document.getElementById('chip-expiry').value = '';
-      document.getElementById('chip-social').value = '';
-      document.getElementById('chip-abi').value = '';
-      document.getElementById('chip-custom').value = '';
-      document.getElementById('chip-notes').value = '';
+      };
+      if (bgFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          chip.bgImage = e.target.result;
+          chips.push(chip);
+          renderChips(document.getElementById('category-filter').value);
+          updateCategoryFilter();
+          document.getElementById('chip-name').value = '';
+          document.getElementById('chip-type').value = '';
+          document.getElementById('chip-category').value = '';
+          document.getElementById('chip-address').value = '';
+          document.getElementById('chip-url').value = '';
+          document.getElementById('chip-tags').value = '';
+          document.getElementById('chip-meta').value = '';
+          document.getElementById('chip-network').value = '';
+          document.getElementById('chip-chainid').value = '';
+          document.getElementById('chip-symbol').value = '';
+          document.getElementById('chip-expiry').value = '';
+          document.getElementById('chip-social').value = '';
+          document.getElementById('chip-abi').value = '';
+          document.getElementById('chip-custom').value = '';
+          document.getElementById('chip-notes').value = '';
+          document.getElementById('chip-bg').value = '';
+        };
+        reader.readAsDataURL(bgFile);
+      } else {
+        chips.push(chip);
+        renderChips(document.getElementById('category-filter').value);
+        updateCategoryFilter();
+        document.getElementById('chip-name').value = '';
+        document.getElementById('chip-type').value = '';
+        document.getElementById('chip-category').value = '';
+        document.getElementById('chip-address').value = '';
+        document.getElementById('chip-url').value = '';
+        document.getElementById('chip-tags').value = '';
+        document.getElementById('chip-meta').value = '';
+        document.getElementById('chip-network').value = '';
+        document.getElementById('chip-chainid').value = '';
+        document.getElementById('chip-symbol').value = '';
+        document.getElementById('chip-expiry').value = '';
+        document.getElementById('chip-social').value = '';
+        document.getElementById('chip-abi').value = '';
+        document.getElementById('chip-custom').value = '';
+        document.getElementById('chip-notes').value = '';
+        document.getElementById('chip-bg').value = '';
+      }
     };
 
     document.getElementById('category-filter').onchange = (e) => {
