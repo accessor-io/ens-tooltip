@@ -15,6 +15,9 @@
     .category { font-size: 0.9em; color: #888; }
     .tags { font-size: 0.85em; color: #4a4; margin-left: 0.5em; }
     .meta { font-size: 0.85em; color: #888; margin-top: 0.3em; }
+    .chip-section { margin-bottom: 0.3em; }
+    .chip-label { font-weight: bold; color: #333; }
+    textarea { font-family: monospace; font-size: 1em; }
   </style>
 </head>
 <body>
@@ -27,6 +30,13 @@
     <input id="chip-url" placeholder="dApp or resource URL" />
     <input id="chip-tags" placeholder="Tags (comma separated)" />
     <input id="chip-meta" placeholder="Meta (e.g. NFT ID, DAO role, etc.)" />
+    <input id="chip-network" placeholder="Network (Ethereum, Polygon, etc.)" />
+    <input id="chip-chainid" placeholder="Chain ID (e.g. 1, 137)" />
+    <input id="chip-symbol" placeholder="Token/NFT Symbol" />
+    <input id="chip-expiry" type="date" placeholder="Expiration Date" />
+    <input id="chip-social" placeholder="Social Links (comma separated URLs)" />
+    <textarea id="chip-abi" placeholder="Contract ABI (JSON)" rows="2" cols="30"></textarea>
+    <textarea id="chip-custom" placeholder="Custom Metadata (JSON)" rows="2" cols="30"></textarea>
     <input id="chip-notes" placeholder="Notes" />
     <button id="add-chip">Add Chip</button>
   </div>
@@ -53,12 +63,18 @@
           const div = document.createElement('div');
           div.className = 'chip';
           div.innerHTML = `
-            <strong>${chip.name}</strong> <span class="category">(${chip.category})</span>
-            <span class="tags">${chip.tags ? chip.tags.map(t => `#${t.trim()}`).join(' ') : ''}</span><br>
-            <span><b>Type:</b> ${chip.type || ''}</span><br>
-            <span><b>Address/ENS:</b> ${chip.address || ''}</span><br>
-            <span><b>URL:</b> <a href="${chip.url || '#'}" target="_blank">${chip.url || ''}</a></span><br>
-            <span class="meta"><b>Meta:</b> ${chip.meta || ''}</span><br>
+            <div class="chip-section"><strong>${chip.name}</strong> <span class="category">(${chip.category})</span>
+            <span class="tags">${chip.tags ? chip.tags.map(t => `#${t.trim()}`).join(' ') : ''}</span></div>
+            <div class="chip-section"><span class="chip-label">Type:</span> ${chip.type || ''}</div>
+            <div class="chip-section"><span class="chip-label">Address/ENS:</span> ${chip.address || ''}</div>
+            <div class="chip-section"><span class="chip-label">URL:</span> <a href="${chip.url || '#'}" target="_blank">${chip.url || ''}</a></div>
+            <div class="chip-section"><span class="chip-label">Network:</span> ${chip.network || ''} <span class="chip-label">ChainId:</span> ${chip.chainId || ''}</div>
+            <div class="chip-section"><span class="chip-label">Symbol:</span> ${chip.symbol || ''}</div>
+            <div class="chip-section"><span class="chip-label">Meta:</span> ${chip.meta || ''}</div>
+            <div class="chip-section"><span class="chip-label">Expiry:</span> ${chip.expiry || ''}</div>
+            <div class="chip-section"><span class="chip-label">Social:</span> ${chip.social && chip.social.length ? chip.social.map(url => `<a href='${url}' target='_blank'>${url}</a>`).join(', ') : ''}</div>
+            <div class="chip-section"><span class="chip-label">ABI:</span> <pre style='white-space:pre-wrap;max-height:4em;overflow:auto;'>${chip.abi ? JSON.stringify(chip.abi, null, 2) : ''}</pre></div>
+            <div class="chip-section"><span class="chip-label">Custom:</span> <pre style='white-space:pre-wrap;max-height:4em;overflow:auto;'>${chip.custom ? JSON.stringify(chip.custom, null, 2) : ''}</pre></div>
             <small>${chip.notes}</small>
             <button onclick="removeChip(${idx})">Remove</button>
             <div style="font-size:0.8em;color:#aaa;">${chip.dateCreated}</div>
@@ -87,6 +103,15 @@
       const url = document.getElementById('chip-url').value;
       const tags = document.getElementById('chip-tags').value.split(',').map(t => t.trim()).filter(Boolean);
       const meta = document.getElementById('chip-meta').value;
+      const network = document.getElementById('chip-network').value;
+      const chainId = document.getElementById('chip-chainid').value;
+      const symbol = document.getElementById('chip-symbol').value;
+      const expiry = document.getElementById('chip-expiry').value;
+      const social = document.getElementById('chip-social').value.split(',').map(s => s.trim()).filter(Boolean);
+      let abi = document.getElementById('chip-abi').value;
+      let custom = document.getElementById('chip-custom').value;
+      try { abi = abi ? JSON.parse(abi) : null; } catch { abi = abi || null; }
+      try { custom = custom ? JSON.parse(custom) : null; } catch { custom = custom || null; }
       const notes = document.getElementById('chip-notes').value;
       if (!name || !category) return alert('Name and category required!');
       chips.push({
@@ -98,6 +123,13 @@
         url,
         tags,
         meta,
+        network,
+        chainId,
+        symbol,
+        expiry,
+        social,
+        abi,
+        custom,
         notes,
         dateCreated: new Date().toLocaleString()
       });
@@ -110,6 +142,13 @@
       document.getElementById('chip-url').value = '';
       document.getElementById('chip-tags').value = '';
       document.getElementById('chip-meta').value = '';
+      document.getElementById('chip-network').value = '';
+      document.getElementById('chip-chainid').value = '';
+      document.getElementById('chip-symbol').value = '';
+      document.getElementById('chip-expiry').value = '';
+      document.getElementById('chip-social').value = '';
+      document.getElementById('chip-abi').value = '';
+      document.getElementById('chip-custom').value = '';
       document.getElementById('chip-notes').value = '';
     };
 
