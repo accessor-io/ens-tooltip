@@ -13,13 +13,20 @@
     #chip-list { margin-top: 1em; }
     #ipfs-hash { margin-top: 1em; color: green; }
     .category { font-size: 0.9em; color: #888; }
+    .tags { font-size: 0.85em; color: #4a4; margin-left: 0.5em; }
+    .meta { font-size: 0.85em; color: #888; margin-top: 0.3em; }
   </style>
 </head>
 <body>
   <h2>Decentralized Chips Demo</h2>
   <div>
     <input id="chip-name" placeholder="Name or ENS" />
-    <input id="chip-category" placeholder="Category (e.g. DeFi, NFT, Address)" />
+    <input id="chip-type" placeholder="Type (e.g. Bookmark, Address, NFT, DAO, DeFi)" />
+    <input id="chip-category" placeholder="Category (e.g. DeFi, NFT, DAO, Social)" />
+    <input id="chip-address" placeholder="Address (0x..., ENS, etc.)" />
+    <input id="chip-url" placeholder="dApp or resource URL" />
+    <input id="chip-tags" placeholder="Tags (comma separated)" />
+    <input id="chip-meta" placeholder="Meta (e.g. NFT ID, DAO role, etc.)" />
     <input id="chip-notes" placeholder="Notes" />
     <button id="add-chip">Add Chip</button>
   </div>
@@ -46,7 +53,12 @@
           const div = document.createElement('div');
           div.className = 'chip';
           div.innerHTML = `
-            <strong>${chip.name}</strong> <span class="category">(${chip.category})</span><br>
+            <strong>${chip.name}</strong> <span class="category">(${chip.category})</span>
+            <span class="tags">${chip.tags ? chip.tags.map(t => `#${t.trim()}`).join(' ') : ''}</span><br>
+            <span><b>Type:</b> ${chip.type || ''}</span><br>
+            <span><b>Address/ENS:</b> ${chip.address || ''}</span><br>
+            <span><b>URL:</b> <a href="${chip.url || '#'}" target="_blank">${chip.url || ''}</a></span><br>
+            <span class="meta"><b>Meta:</b> ${chip.meta || ''}</span><br>
             <small>${chip.notes}</small>
             <button onclick="removeChip(${idx})">Remove</button>
             <div style="font-size:0.8em;color:#aaa;">${chip.dateCreated}</div>
@@ -69,20 +81,35 @@
 
     document.getElementById('add-chip').onclick = () => {
       const name = document.getElementById('chip-name').value;
+      const type = document.getElementById('chip-type').value;
       const category = document.getElementById('chip-category').value;
+      const address = document.getElementById('chip-address').value;
+      const url = document.getElementById('chip-url').value;
+      const tags = document.getElementById('chip-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const meta = document.getElementById('chip-meta').value;
       const notes = document.getElementById('chip-notes').value;
       if (!name || !category) return alert('Name and category required!');
       chips.push({
         id: Date.now().toString(),
         name,
+        type,
         category,
+        address,
+        url,
+        tags,
+        meta,
         notes,
         dateCreated: new Date().toLocaleString()
       });
       renderChips(document.getElementById('category-filter').value);
       updateCategoryFilter();
       document.getElementById('chip-name').value = '';
+      document.getElementById('chip-type').value = '';
       document.getElementById('chip-category').value = '';
+      document.getElementById('chip-address').value = '';
+      document.getElementById('chip-url').value = '';
+      document.getElementById('chip-tags').value = '';
+      document.getElementById('chip-meta').value = '';
       document.getElementById('chip-notes').value = '';
     };
 
