@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Decentralized Chips Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client@60.0.1/dist/index.min.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .chip { border: 1px solid #ccc; border-radius: 8px; padding: 1em; margin: 0.5em 0; background: #f9f9f9; }
+    .chip strong { color: #2d72d9; }
+    .chip small { color: #666; }
+    .chip button { float: right; }
+    #chip-list { margin-top: 1em; }
+    #ipfs-hash { margin-top: 1em; color: green; }
+    .category { font-size: 0.9em; color: #888; }
+  </style>
+</head>
+<body>
+  <h2>Decentralized Chips Demo</h2>
+  <div>
+    <input id="chip-name" placeholder="Name or ENS" />
+    <input id="chip-category" placeholder="Category (e.g. DeFi, NFT, Address)" />
+    <input id="chip-notes" placeholder="Notes" />
+    <button id="add-chip">Add Chip</button>
+  </div>
+  <div>
+    <label>Filter by category:</label>
+    <select id="category-filter">
+      <option value="">All</option>
+    </select>
+  </div>
+  <div id="chip-list"></div>
+  <button id="save-to-ipfs">Save All Chips to IPFS</button>
+  <div id="ipfs-hash"></div>
+  <script>
+    // Use the global IPFS client from CDN
+    const ipfs = window.IpfsHttpClient.create({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+    let chips = [];
+
+    function renderChips(filter = '') {
+      const list = document.getElementById('chip-list');
+      list.innerHTML = '';
+      chips
+        .filter(chip => !filter || chip.category === filter)
+        .forEach((chip, idx) => {
+          const div = document.createElement('div');
+          div.className = 'chip';
+          div.innerHTML = `
+            <strong>${chip.name}</strong> <span class="category">(${chip.category})</span><br>
+            <small>${chip.notes}</small>
+            <button onclick="removeChip(${idx})">Remove</button>
+            <div style="font-size:0.8em;color:#aaa;">${chip.dateCreated}</div>
+          `;
+          list.appendChild(div);
+        });
+    }
+
+    function updateCategoryFilter() {
+      const filter = document.getElementById('category-filter');
+      const categories = Array.from(new Set(chips.map(c => c.category)));
+      filter.innerHTML = '<option value="">All</option>' + categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    }
+
+    window.removeChip = function(idx) {
+      chips.splice(idx, 1);
+      renderChips(document.getElementById('category-filter').value);
+      updateCategoryFilter();
+    };
+
+    document.getElementById('add-chip').onclick = () => {
+      const name = document.getElementById('chip-name').value;
+      const category = document.getElementById('chip-category').value;
+      const notes = document.getElementById('chip-notes').value;
+      if (!name || !category) return alert('Name and category required!');
+      chips.push({
+        id: Date.now().toString(),
+        name,
+        category,
+        notes,
+        dateCreated: new Date().toLocaleString()
+      });
+      renderChips(document.getElementById('category-filter').value);
+      updateCategoryFilter();
+      document.getElementById('chip-name').value = '';
+      document.getElementById('chip-category').value = '';
+      document.getElementById('chip-notes').value = '';
+    };
+
+    document.getElementById('category-filter').onchange = (e) => {
+      renderChips(e.target.value);
+    };
+
+    document.getElementById('save-to-ipfs').onclick = async () => {
+      document.getElementById('ipfs-hash').innerText = 'Saving to IPFS...';
+      const { path } = await ipfs.add(JSON.stringify(chips));
+      document.getElementById('ipfs-hash').innerText = `Saved to IPFS: ${path}`;
+    };
+
+    renderChips();
+    updateCategoryFilter();
+  </script>
+</body>
+</html> 
